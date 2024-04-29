@@ -6,7 +6,7 @@ var speed;
 var looping = false;
 var lightness = "95%";
 
-$(document).ready(function() {
+document.addEventListener('DOMContentLoaded', function() {
 
   //setup copy
   clip = new Clipboard('#text');
@@ -28,7 +28,7 @@ $(document).ready(function() {
     updateButtons();
   })
 
-  $('#gen').click(function(e) {
+  document.querySelector('#gen').addEventListener('click', function(e) {
     e.preventDefault();
     if (!auto) {
       if (!looping) {
@@ -44,7 +44,7 @@ $(document).ready(function() {
     }
   });
 
-  $('#tog').click(function(e) {
+  document.querySelector('#tog').addEventListener('click', function(e) {
     e.preventDefault();
     auto = !auto; //invert auto
     setValues(); //save values to Chrome
@@ -52,28 +52,28 @@ $(document).ready(function() {
   });
 
   clip.on('success', function(e) { //on finish copy
-    $('#text').addClass('copied');
+    document.querySelector('#text').classList.add('copied');
   });
 
-  $('#clock-tog').click(function(e) {
+  document.querySelector('#clock-tog').addEventListener('click', function(e) {
     e.preventDefault();
-    $('#clock').toggleClass('hide');
+    document.querySelector('#clock').classList.toggle('hide');
   });
 
   clock();
 });
 
 function clock() {
-  $('#clock').html(moment().format('h:mm A'));
+  document.querySelector('#clock').innerHTML = moment().format('h:mm A');
   setTimeout(function() { clock(); }, 500);
 }
 
 function updateButtons() {
   if (!auto) {
-    $('#auto-check').html('');
-    $('#gen').html('generate');
+    document.querySelector('#auto-check').innerHTML = '';
+    document.querySelector('#gen').innerHTML = 'generate';
   } else {
-    $('#auto-check').html('check');
+    document.querySelector('#auto-check').innerHTML = 'check';
 
     setSpeedBars();
 
@@ -88,7 +88,7 @@ function updateButtons() {
 function setSpeedBars() {
   var sbars = "|";
   sbars = sbars.repeat(speed);
-  $('#gen').html('speed: ' + sbars);
+  document.querySelector('#gen').innerHTML = 'speed: ' + sbars;
 }
 
 function setValues() {
@@ -99,11 +99,11 @@ function setValues() {
 function changeColor() {
   col = parseInt(Math.random() * 360); //randomize color
 
-  $('body').css('background-color', 'hsl(' + col + ', 100%, ' + lightness + ')'); //set color
+  document.body.style.backgroundColor = 'hsl(' + col + ', 100%, ' + lightness + ')'; //set color
 
   hex = '#' + tinycolor('hsl(' + col + ', 100%, ' + lightness + ')').toHex(); //translate to hex
-  $('#text').html(hex); //set text
-  $('#text').removeClass('copied'); //clear ' - copied'
+  document.querySelector('#text').innerHTML = hex; //set text
+  document.querySelector('#text').classList.remove('copied'); //clear ' - copied'
 
   //auto-generate colors is option is enabled
   if (auto) {
